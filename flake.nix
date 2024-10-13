@@ -231,6 +231,11 @@
           description = "Rust development environment";
         };
 
+        rust-fork = {
+          path = ./rust-fork;
+          description = "Rust development environment for a forked repo not using nix flakes";
+        };
+
         rust-toolchain = {
           path = ./rust-toolchain;
           description = "Rust development environment with Rust version defined by a rust-toolchain.toml file";
