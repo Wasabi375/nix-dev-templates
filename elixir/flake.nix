@@ -1,7 +1,7 @@
 {
   description = "A Nix-flake-based Elixir development environment";
 
-  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
 
   outputs = { self, nixpkgs }:
     let
@@ -37,10 +37,10 @@
         # ==== Elixir ====
 
         # use whatever version is currently defined in nixpkgs
-        # elixir = pkgs-beam.elixir;
+        elixir = pkgs-beam.elixir;
 
         # use latest version of Elixir 1.17
-        elixir = pkgs-beam.elixir_1_17;
+        # elixir = pkgs-beam.elixir_1_17;
 
         # specify exact version of Elixir
         # elixir = pkgs-beam.elixir.override {

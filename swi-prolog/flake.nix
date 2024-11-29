@@ -1,7 +1,7 @@
 {
   description = "A Nix-flake-based Swi-prolog development environment";
 
-  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
 
   outputs = { self, nixpkgs }:
     let
@@ -13,7 +13,7 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ swi-prolog ];
+          packages = with pkgs; [ swiProlog ]; # renamed to swi-prolog in 24.11
         };
       });
     };
