@@ -13,7 +13,7 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ swiProlog ]; # renamed to swi-prolog in 24.11
+          packages = with pkgs; [ swi-prolog ];
         };
       });
     };

@@ -14,12 +14,11 @@
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           packages = with pkgs; [
-            #dotnet-sdk_6
-            dotnet-sdk_7
-            #dotnet-sdk_8
+            #dotnet-sdk # LTS, currently 8.0
+            dotnet-sdk_9
             omnisharp-roslyn
             mono
-            msbuild
+            # msbuild # TODO not sure if this is needed, it complains about dotnet 6 EOL
           ];
         };
       });
