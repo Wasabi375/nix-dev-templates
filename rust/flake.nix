@@ -9,28 +9,30 @@
     };
     flake-utils = {
         url = "github:numtide/flake-utils";
-        inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs = { self, nixpkgs, rust-overlay, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        overlays = [
+        rust-overlays = if builtins.pathExists ./rust-toolchain.toml then [
             (import rust-overlay)
             (final: prev: {
-                rustToolchain =
-                    let
-                        rust = prev.rust-bin;
-                    in
-                    if builtins.pathExists ./rust-toolchain.toml then
-                        rust.fromRustupToolchainFile ./rust-toolchain.toml
-                    else
-                        rust.stable.default.override {
-                            extensions = [ "rust-src" "rustfmt" "rust-analyzer" "clippy" ];
-                        };
-                    })
+                rustToolchain = prev.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
+            })
+        ] else [
+            (final: prev: {
+                rustToolchain = with prev; [
+                    cargo
+                    clippy
+                    rustc
+                    rustfmt
+                    rust-analyzer
+                ];
+            })
         ];
+
+        overlays = rust-overlays ++ [];
         pkgs = import nixpkgs {
           inherit system overlays;
         };
@@ -40,8 +42,7 @@
           buildInputs = [
             openssl
             pkg-config
-            rust-bin.stable.latest.default
-            rust-analyzer
+            rustToolchain
             cargo-deny
             cargo-edit
           ];
