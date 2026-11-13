@@ -6,7 +6,7 @@
   outputs =
     { self, nixpkgs }:
     let
-      javaVersion = 23; # Change this value to update the whole stack
+      javaVersion = 25; # Change this value to update the whole stack
 
       supportedSystems = [
         "x86_64-linux"
