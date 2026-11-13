@@ -8,48 +8,61 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils = {
-        url = "github:numtide/flake-utils";
+      url = "github:numtide/flake-utils";
     };
   };
 
-  outputs = { self, nixpkgs, rust-overlay, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      rust-overlay,
+      flake-utils,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
-        rust-overlays = if builtins.pathExists ./rust-toolchain.toml then [
-            (import rust-overlay)
-            (final: prev: {
+        rust-overlays =
+          if builtins.pathExists ./rust-toolchain.toml then
+            [
+              (import rust-overlay)
+              (final: prev: {
                 rustToolchain = prev.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
-            })
-        ] else [
-            (final: prev: {
-                rustToolchain = with prev; [
-                    cargo
-                    clippy
-                    rustc
-                    rustfmt
-                    rust-analyzer
+              })
+            ]
+          else
+            [
+              (final: prev: {
+                rustToolchain = with final; [
+                  cargo
+                  clippy
+                  rustc
+                  rustfmt
+                  rust-analyzer
                 ];
-            })
-        ];
+              })
+            ];
 
-        overlays = rust-overlays ++ [];
+        overlays = rust-overlays ++ [ ];
         pkgs = import nixpkgs {
           inherit system overlays;
         };
       in
       {
-        devShells.default = with pkgs; mkShell {
-          buildInputs = [
-            openssl
-            pkg-config
-            rustToolchain
-            cargo-deny
-            cargo-edit
-          ];
+        devShells.default =
+          with pkgs;
+          mkShell {
+            buildInputs = [
+              openssl
+              pkg-config
+              rustToolchain
+              cargo-deny
+              cargo-edit
+            ];
 
-          shellHook = ''
-          '';
-        };
+            shellHook = "";
+          };
       }
     );
 }
