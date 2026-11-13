@@ -35,7 +35,12 @@
             [
               (import rust-overlay)
               (final: prev: {
-                rustToolchain = prev.rust-bin.selectLatestNightlyWith (toolchain: toolchain.default);
+                rustToolchain = prev.rust-bin.selectLatestNightlyWith (
+                  toolchain:
+                  toolchain.default.override {
+                    extensions = [ "rust-analyzer" ];
+                  }
+                );
               })
             ];
 

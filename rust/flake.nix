@@ -35,7 +35,9 @@
             [
               (import rust-overlay)
               (final: prev: {
-                rustToolchain = prev.rust-bin.stable.latest.default;
+                rustToolchain = prev.rust-bin.stable.latest.default.override {
+                  extensions = [ "rust-analyzer" ];
+                };
               })
             ];
 
