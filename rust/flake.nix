@@ -33,14 +33,9 @@
             ]
           else
             [
+              (import rust-overlay)
               (final: prev: {
-                rustToolchain = with final; [
-                  cargo
-                  clippy
-                  rustc
-                  rustfmt
-                  rust-analyzer
-                ];
+                rustToolchain = prev.rust-bin.stable.latest.default;
               })
             ];
 
@@ -54,11 +49,11 @@
           with pkgs;
           mkShell {
             buildInputs = [
+              cargo-deny
+              cargo-edit
               openssl
               pkg-config
               rustToolchain
-              cargo-deny
-              cargo-edit
             ];
 
             shellHook = "";
