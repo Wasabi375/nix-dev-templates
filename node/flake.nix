@@ -33,9 +33,8 @@
         { pkgs }: {
           default = pkgs.mkShell {
             packages = with pkgs; [
-              node2nix
               nodejs
-              nodePackages.pnpm
+              pnpm
               yarn
             ];
           };
